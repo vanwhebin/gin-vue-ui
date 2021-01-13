@@ -1,12 +1,30 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
+/*eslint spaced-comment:0*/
+import Vue from 'vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import Vuelidate from 'vuelidate'
 
-Vue.config.productionTip = false;
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+/*eslint import/first:0*/
+import './assets/scss/index.scss'
+
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+
+Vue.config.productionTip = false
+
+// vuelidate
+Vue.use(Vuelidate)
+
+// axios
+Vue.use(VueAxios, axios)
 
 new Vue({
   router,
   store,
-  render: (h) => h(App),
-}).$mount('#app');
+  render: (h) => h(App)
+}).$mount('#app')
