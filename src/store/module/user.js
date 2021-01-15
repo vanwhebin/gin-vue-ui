@@ -1,6 +1,6 @@
 import defaultSetting from '@/config/defaultSetting'
 import {
-  postRegister, postLogin, getUserInfo, getLogout
+  postRegister, postLogin, getUserInfo
 } from '@/api'
 import { localRemove, localSet } from '@/util/storage'
 
@@ -50,6 +50,13 @@ const user = {
             commit('SET_TOKEN', response.data.access_token)
             resolve(response)
           })
+          .then(() => {
+            getUserInfo()
+              .then((res) => {
+                commit('SET_INFO', res.data.user)
+                return resolve(res)
+              })
+          })
           .catch((error) => {
             reject(error)
           })
@@ -62,6 +69,13 @@ const user = {
           .then((response) => {
             commit('SET_TOKEN', response.data.access_token)
             resolve(response)
+          })
+          .then(() => {
+            getUserInfo()
+              .then((res) => {
+                commit('SET_INFO', res.data.user)
+                return resolve(res)
+              })
           })
           .catch((error) => {
             reject(error)
@@ -105,18 +119,23 @@ const user = {
     // 登出
     Logout({ commit }) {
       return new Promise((resolve) => {
-        getLogout()
-          .then(() => {
-            resolve()
-          })
-          .catch(() => {
-            resolve()
-          })
-          .finally(() => {
-            commit('SET_TOKEN', '')
-            commit('SET_REFRESH_TOKEN', '')
-            commit('SET_ROLES', [])
-          })
+        commit('SET_TOKEN', '')
+        commit('SET_REFRESH_TOKEN', '')
+        commit('SET_ROLES', [])
+        commit('SET_INFO', {})
+        resolve()
+        // getLogout()
+        //   .then(() => {
+        //     resolve()
+        //   })
+        //   .catch(() => {
+        //     resolve()
+        //   })
+        //   .finally(() => {
+        //     commit('SET_TOKEN', '')
+        //     commit('SET_REFRESH_TOKEN', '')
+        //     commit('SET_ROLES', [])
+        //   })
       })
     }
   }

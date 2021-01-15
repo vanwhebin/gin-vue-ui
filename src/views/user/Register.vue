@@ -61,7 +61,8 @@
                 重复密码不一致
               </b-form-invalid-feedback>
             </b-form-group>
-            <b-button type="submit" variant="outline-primary" block>注册</b-button>
+            <b-button type="submit" variant="outline-primary" block
+            :disable="loginBtn">注册</b-button>
           </b-form>
           <a @click="$router.push({'name': 'Login'})"
              style="display:block;margin-top: 10px;text-align: center;cursor:pointer">登录</a>
@@ -82,6 +83,7 @@
     name: 'Register',
     data() {
       return {
+        loginBtn: false,
         form: {
           telephone: '',
           name: '',
@@ -109,7 +111,7 @@
       }
     },
     methods: {
-      ...mapActions('user', 'Register'),
+      ...mapActions('user', ['Register']),
       validateState(name) {
         const { $dirty, $error } = this.$v.form[name]
         return $dirty ? !$error : null
@@ -132,15 +134,15 @@
         const id = 'register_toast'
         this.$bvToast.toast(res.msg, {
           id,
-          autoHideDelay: 2000,
           title: '注册成功',
           variant: 'success',
-          solid: true
+          solid: true,
+          autoHideDelay: 1000
         })
         setTimeout(() => {
           this.$bvToast.hide(id)
           this.$router.push({ name: 'Home' })
-        }, 2000)
+        }, 1500)
       },
       requestFailed(error) {
         console.log(error)

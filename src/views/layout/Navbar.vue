@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <b-navbar toggleable="lg" type="light" variant="light">
       <b-container>
@@ -8,21 +8,23 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="/register">注册</b-nav-item>
-            <b-nav-item href="/login">登录</b-nav-item>
+            <b-nav-item @click="$router.push('Register')">注册</b-nav-item>
+            <b-nav-item @click="$router.push('Login')">登录</b-nav-item>
             <b-nav-item href="#">Link</b-nav-item>
             <b-nav-item href="#" disabled>Disabled</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <!-- Using 'button-content' slot -->
-              <template #button-content>
-                <span class="fa fa-user">用户</span>
+            <b-nav-item-dropdown
+              right
+              v-if="userInfo"
+            >
+              <template slot="button-content">
+                <em>{{userInfo.name}}</em>
               </template>
-              <b-dropdown-item href="#">注册</b-dropdown-item>
-              <b-dropdown-item href="#">登录</b-dropdown-item>
+              <b-dropdown-item @click="$router.push({name: 'Profile'})">个人主页</b-dropdown-item>
+              <b-dropdown-item @click="Logout">登出</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -32,8 +34,15 @@
 </template>
 
 <script>
+  import { mapState, mapActions } from 'vuex'
+
   export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    computed: mapState({
+      userInfo: (state) => state.user.info
+    }),
+
+    methods: mapActions('user', ['Logout'])
   }
 </script>
 

@@ -108,12 +108,13 @@
           id,
           title: '登录成功',
           variant: 'success',
-          solid: true
+          solid: true,
+          autoHideDelay: 1000
         })
         setTimeout(() => {
           this.$bvToast.hide(id)
           this.$router.push({ name: 'Home' })
-        }, 2000)
+        }, 1500)
       },
       requestFailed(error) {
         console.log(error)
