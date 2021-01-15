@@ -1,6 +1,5 @@
 <template>
   <div class="mt-6">
-
     <div class="container mt--7 mt-5">
       <div class="row mb-6">
         <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
@@ -258,21 +257,29 @@
   </div>
 </template>
 <script>
+  import { postList } from '@/api/post'
+
   export default {
     name: 'list',
     data() {
       return {
-        model: {
-          username: '',
-          email: '',
-          firstName: '',
-          lastName: '',
-          address: '',
-          city: '',
-          country: '',
-          zipCode: '',
-          about: ''
+        list: [],
+        pagination: {
+          pageSize: 9,
+          pageNum: 1
         }
+      }
+    },
+    mounted () {
+      this.init()
+    },
+    methods: {
+      init () {
+        postList(this.pagination)
+          .then((res) => {
+            console.log(res)
+            this.list = res.data.data
+          })
       }
     }
   }

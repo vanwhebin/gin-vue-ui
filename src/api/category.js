@@ -7,11 +7,13 @@ const api = {
   logout: '/auth/logout'
 }
 
+export default api
+
 export function postLogin(data) {
   return axios({
     url: api.login,
     method: 'post',
-    data
+    data: data
   })
 }
 
@@ -19,7 +21,7 @@ export function postRegister(data) {
   return axios({
     url: api.register,
     method: 'post',
-    data
+    data: data
   })
 }
 
@@ -37,3 +39,4 @@ export function getLogout() {
     method: 'get'
   })
 }
+
