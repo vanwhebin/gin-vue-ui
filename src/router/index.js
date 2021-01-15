@@ -1,45 +1,90 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '@/store'
-import Home from '../views/Home.vue'
-import userRoutes from './module/user'
+// import store from '@/store'
+// import Home from '.@/views/Home.vue'
+// import userRoutes from './module/user'
+import MainLayout from '@/views/layout/MainLayout.vue'
 
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  ...userRoutes
+    redirect: 'dashboard',
+    component: MainLayout,
+    children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Login.vue')
+      },
+      {
+        path: '/register',
+        name: 'register',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Register.vue')
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/UserProfile.vue')
+      },
+      {
+        path: '/tables',
+        name: 'tables',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Tables.vue')
+      },
+      {
+        path: '/icons',
+        name: 'icons',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Icons.vue')
+      },
+      {
+        path: '/list',
+        name: 'list',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/List.vue')
+      },
+      {
+        path: '/home',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Card.vue')
+      },
+      {
+        path: '/post',
+        name: 'post',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Post.vue')
+      },
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Dashboard.vue')
+      },
+      {
+        path: '/maps',
+        name: 'maps',
+        component: () => import(/* webpackChunkName: "gin-vue" */ '@/views/Maps.vue')
+      }
+    ]
+  }
 ]
+
+// const routes = [
+//   {
+//     path: '/',
+//     name: 'Home',
+//     component: Home
+//   },
+//   {
+//     path: '/about',
+//     name: 'About',
+//     component: () => import(/* webpackChunkName: "about" */ '.@/views/About.vue')
+//   },
+//   ...userRoutes
+// ]
 
 const router = new VueRouter({
   mode: 'history',
+  linkExactActiveClass: 'active',
   base: process.env.BASE_URL,
   routes
-})
-
-router.beforeEach((to, from, next) => {
-  if (to.meta.auth) { // 判断是否需要登录
-    // 判断用户是否登录
-    if (store.state.user.token) {
-      // 这里还要判断token 的有效性 比如有没有过期 需要后台发放token 的时候 带上token 的有效期，
-      // 如果 token 无效 需要 请求token
-      next()
-    } else {
-      // 跳转登录
-      router.push({ name: 'Login' })
-    }
-  } else {
-    next()
-  }
 })
 
 export default router

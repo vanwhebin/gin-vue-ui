@@ -8,13 +8,14 @@ import Vuelidate from 'vuelidate'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import ArgonDashboard from './plugins/argon-dashboard'
 
+Vue.use(ArgonDashboard)
 /*eslint import/first:0*/
-import './assets/scss/index.scss'
+// import './assets/scss/index.scss'
 
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
-
+// Vue.use(BootstrapVue)
+// Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
 // vuelidate
